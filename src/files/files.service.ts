@@ -13,13 +13,13 @@ export class FilesService {
   private readonly bucket: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.bucket = this.configService.get('S3_BUCKET');
+    this.bucket = this.configService.getOrThrow('S3_BUCKET');
     this.s3 = new S3Client({
-      endpoint: this.configService.get('S3_ENDPOINT'),
-      region: this.configService.get('S3_REGION', 'us-east-1'),
+      endpoint: this.configService.getOrThrow('S3_ENDPOINT'),
+      region: this.configService.get('S3_REGION') ?? 'us-east-1',
       credentials: {
-        accessKeyId: this.configService.get('S3_ACCESS_KEY'),
-        secretAccessKey: this.configService.get('S3_SECRET_KEY'),
+        accessKeyId: this.configService.getOrThrow('S3_ACCESS_KEY'),
+        secretAccessKey: this.configService.getOrThrow('S3_SECRET_KEY'),
       },
       forcePathStyle: true,
     });
